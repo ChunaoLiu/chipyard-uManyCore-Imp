@@ -1,0 +1,154 @@
+{
+    "version": "1.4.0",
+    "project": {
+        "name": "chipyardRoot-test",
+        "directory": "/home/chunao/chipyard",
+        "workspaceDir": "/home/chunao/chipyard",
+        "sources": [
+            "/home/chunao/chipyard/src/test/scala",
+            "/home/chunao/chipyard/src/test/scala-2.12",
+            "/home/chunao/chipyard/src/test/scala-2",
+            "/home/chunao/chipyard/src/test/java",
+            "/home/chunao/chipyard/target/scala-2.12/src_managed/test"
+        ],
+        "dependencies": [
+            "chipyardRoot"
+        ],
+        "classpath": [
+            "/home/chunao/chipyard/.bloop/chipyardRoot/scala-2.12/classes",
+            "/home/chunao/.sbt/boot/scala-2.12.14/lib/scala-library.jar"
+        ],
+        "out": "/home/chunao/chipyard/.bloop/chipyardRoot",
+        "classesDir": "/home/chunao/chipyard/.bloop/chipyardRoot/scala-2.12/test-classes",
+        "resources": [
+            "/home/chunao/chipyard/src/test/resources",
+            "/home/chunao/chipyard/target/scala-2.12/resource_managed/test"
+        ],
+        "scala": {
+            "organization": "org.scala-lang",
+            "name": "scala-compiler",
+            "version": "2.12.14",
+            "options": [
+                
+            ],
+            "jars": [
+                "/home/chunao/.sbt/boot/scala-2.12.14/lib/scala-library.jar",
+                "/home/chunao/.sbt/boot/scala-2.12.14/lib/jansi.jar",
+                "/home/chunao/.sbt/boot/scala-2.12.14/lib/jline.jar",
+                "/home/chunao/.sbt/boot/scala-2.12.14/lib/scala-compiler.jar",
+                "/home/chunao/.sbt/boot/scala-2.12.14/lib/scala-reflect.jar",
+                "/home/chunao/.sbt/boot/scala-2.12.14/lib/scala-xml_2.12.jar"
+            ],
+            "setup": {
+                "order": "mixed",
+                "addLibraryToBootClasspath": true,
+                "addCompilerToClasspath": false,
+                "addExtraJarsToClasspath": false,
+                "manageBootClasspath": true,
+                "filterLibraryFromClasspath": true
+            }
+        },
+        "java": {
+            "options": [
+                
+            ]
+        },
+        "test": {
+            "frameworks": [
+                {
+                    "names": [
+                        "org.scalacheck.ScalaCheckFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.specs2.runner.Specs2Framework",
+                        "org.specs2.runner.SpecsFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.specs.runner.SpecsFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.scalatest.tools.Framework",
+                        "org.scalatest.tools.ScalaTestFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "com.novocode.junit.JUnitFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "munit.Framework"
+                    ]
+                }
+            ],
+            "options": {
+                "excludes": [
+                    
+                ],
+                "arguments": [
+                    
+                ]
+            }
+        },
+        "platform": {
+            "name": "jvm",
+            "config": {
+                "home": "/home/chunao/chipyard/.conda-env/lib/jvm",
+                "options": [
+                    "-Duser.dir=/home/chunao/chipyard"
+                ]
+            },
+            "mainClass": [
+                
+            ]
+        },
+        "resolution": {
+            "modules": [
+                {
+                    "organization": "org.scala-lang",
+                    "name": "scala-library",
+                    "version": "2.12.14",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scala-library",
+                            "path": "/home/chunao/.sbt/boot/scala-2.12.14/lib/scala-library.jar"
+                        },
+                        {
+                            "name": "scala-library",
+                            "classifier": "sources",
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.14/scala-library-2.12.14-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-lang",
+                    "name": "scala-library",
+                    "version": "2.12.14",
+                    "configurations": "optional",
+                    "artifacts": [
+                        {
+                            "name": "scala-library",
+                            "path": "/home/chunao/.sbt/boot/scala-2.12.14/lib/scala-library.jar"
+                        },
+                        {
+                            "name": "scala-library",
+                            "classifier": "sources",
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.14/scala-library-2.12.14-sources.jar"
+                        }
+                    ]
+                }
+            ]
+        },
+        "tags": [
+            "test"
+        ]
+    }
+}

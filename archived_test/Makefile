@@ -4,9 +4,9 @@ C_RISCV = riscv64-unknown-elf-gcc -g
 C_SPIKE_OBJ_ARG = -fno-common -fno-builtin-printf -specs=htif_nano.specs -c
 C_SPIKE_ARG = -static -specs=htif_nano.specs 
 
-default: hello riscv-hello spike_obj spike riscv-pkg Hert0TestObj Hert0Test
+default: hello riscv-hello spike_obj spike riscv-pkg Hert0TestObj Hert0Test test_spike_obj test_spike
 
-target: hello riscv-hello spike_obj spike riscv-pkg Hert0TestObj Hert0Test
+target: hello riscv-hello spike_obj spike riscv-pkg Hert0TestObj Hert0Test test_spike_obj test_spike
 
 hello: 
 	$(C_FLG) -o hello_c hello.c
@@ -24,3 +24,8 @@ Hert0TestObj:
 
 Hert0Test:
 	$(C_RISCV) $(C_SPIKE_ARG) -o Hert0Test.riscv Hert0Test.o
+
+test_spike_obj:
+	$(C_RISCV) $(C_SPIKE_OBJ_ARG) -o TestModuleTester.o TestModuleTester.c
+test_spike:
+	$(C_RISCV) $(C_SPIKE_ARG) -o TestModuleTester.riscv TestModuleTester.o

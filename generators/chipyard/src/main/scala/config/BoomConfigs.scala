@@ -6,6 +6,30 @@ import freechips.rocketchip.config.{Config}
 // BOOM Configs
 // ---------------------
 
+class testConfig extends Config(
+  new boom.common.WithNSmallBooms(1) ++   
+  new chipyard.example.withTestModule(useAXI4=false, useBlackBox=false) ++
+  new chipyard.config.AbstractConfig)
+
+class uManyCoreVillageConfig extends Config(
+  // new chipyard.config.WithTraceIO ++
+  // 4 Cores with L1 and TLB   
+  new boom.common.WithuManyCoreTile() ++
+  // Override L2 cache setup from the default config
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=256, outerLatencyCycles=48) ++
+  // TODO: Add NIC Config
+  new chipyard.config.AbstractConfig)                            // uManyCore basic tile config
+
+class uManyCoreVillageConfigWithBootRom extends Config(
+  // new chipyard.config.WithTraceIO ++
+  // 4 Cores with L1 and TLB   
+  new boom.common.WithuManyCoreTile() ++
+  new boom.common.WithMarshalFedoraBootRom() ++
+  // Override L2 cache setup from the default config
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=256, outerLatencyCycles=48) ++
+  // TODO: Add NIC Config
+  new chipyard.config.AbstractConfig)                            // uManyCore basic tile config
+
 class SmallBoomConfig extends Config(
   new boom.common.WithNSmallBooms(1) ++                          // small boom config
   new chipyard.config.AbstractConfig)
