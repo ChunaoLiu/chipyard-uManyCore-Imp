@@ -34,6 +34,10 @@ case object HarnessBinders extends Field[Map[String, (Any, HasHarnessSignalRefer
   Map[String, (Any, HasHarnessSignalReferences, Seq[Data]) => Unit]().withDefaultValue((t: Any, th: HasHarnessSignalReferences, d: Seq[Data]) => ())
 )
 
+case object HarnessBindersWithVillage extends Field[Map[String, (Any, HasHarnessSignalReferences, Seq[Data], Int) => Unit]](
+  Map[String, (Any, HasHarnessSignalReferences, Seq[Data], Int) => Unit]().withDefaultValue((t: Any, th: HasHarnessSignalReferences, d: Seq[Data], vil: Int) => ())
+)
+
 object ApplyHarnessBinders {
   def apply(th: HasHarnessSignalReferences, sys: LazyModule, portMap: Map[String, Seq[Data]])(implicit p: Parameters): Unit = {
     val pm = portMap.withDefaultValue(Nil)
@@ -63,9 +67,32 @@ class HarnessBinder[T, S <: HasHarnessSignalReferences, U <: Data](composer: ((T
   )
 })
 
+class HarnessBinderWithvillageNumber[T, S <: HasHarnessSignalReferences, U <: Data, V](composer: ((T, S, Seq[U], Int) => Unit) => (T, S, Seq[U], Int) => Unit)(implicit systemTag: ClassTag[T], harnessTag: ClassTag[S], portTag: ClassTag[U]) extends Config((site, here, up) => {
+  case HarnessBindersWithVillage => up(HarnessBindersWithVillage, site) + (systemTag.runtimeClass.toString ->
+      ((t: Any, th: HasHarnessSignalReferences, ports: Seq[Data], V: Int) => {
+        val pts = ports.collect({case p: U => p})
+        val village_num = V
+        require (pts.length == ports.length, s"Port type mismatch between IOBinder and HarnessBinder: ${portTag}")
+        val upfn = up(HarnessBindersWithVillage, site)(systemTag.runtimeClass.toString)
+        th match {
+          case th: S =>
+            t match {
+              case system: T => composer(upfn)(system, th, pts, village_num)
+              case _ =>
+            }
+          case _ =>
+        }
+      })
+  )
+})
+
 class OverrideHarnessBinder[T, S <: HasHarnessSignalReferences, U <: Data](fn: => (T, S, Seq[U]) => Unit)
   (implicit tag: ClassTag[T], thtag: ClassTag[S], ptag: ClassTag[U])
     extends HarnessBinder[T, S, U]((upfn: (T, S, Seq[U]) => Unit) => fn)
+
+class OverrideHarnessBinderWithVillageNumber[T, S <: HasHarnessSignalReferences, U <: Data, V](fn: => (T, S, Seq[U], Int) => Unit)
+  (implicit tag: ClassTag[T], thtag: ClassTag[S], ptag: ClassTag[U])
+    extends HarnessBinderWithvillageNumber[T, S, U, V]((upfn: (T, S, Seq[U], Int) => Unit) => fn)
 
 class ComposeHarnessBinder[T, S <: HasHarnessSignalReferences, U <: Data](fn: => (T, S, Seq[U]) => Unit)
   (implicit tag: ClassTag[T], thtag: ClassTag[S], ptag: ClassTag[U])
@@ -140,8 +167,8 @@ class WithSimAXIMem extends OverrideHarnessBinder({
   }
 })
 
-class WithSimAXIMemOverSerialTL extends OverrideHarnessBinder({
-  (system: CanHavePeripheryTLSerial, th: HasHarnessSignalReferences, ports: Seq[ClockedIO[SerialIO]]) => {
+class WithSimAXIMemOverSerialTL extends OverrideHarnessBinderWithVillageNumber({
+  (system: CanHavePeripheryTLSerial, th: HasHarnessSignalReferences, ports: Seq[ClockedIO[SerialIO]], core_id: Int) => {
     implicit val p = chipyard.iobinders.GetSystemParameters(system)
 
     p(SerialTLKey).map({ sVal =>
@@ -162,7 +189,7 @@ class WithSimAXIMemOverSerialTL extends OverrideHarnessBinder({
             memOverSerialTLClockBundle,
             th.buildtopReset)
 // DOC include end: HarnessClockInstantiatorEx
-          val success = SerialAdapter.connectSimSerial(harnessMultiClockAXIRAM.module.io.tsi_ser, th.buildtopClock, th.buildtopReset.asBool)
+          val success = SerialAdapter.connectSimSerial(harnessMultiClockAXIRAM.module.io.tsi_ser, th.buildtopClock, th.buildtopReset.asBool, core_id)
           when (success) { th.success := true.B }
 
           // connect SimDRAM from the AXI port coming from the harness multi clock axi ram
@@ -297,14 +324,14 @@ class WithSerialAdapterTiedOff extends OverrideHarnessBinder({
   }
 })
 
-class WithSimSerial extends OverrideHarnessBinder({
+class WithSimSerial (core_id: Int = 0) extends OverrideHarnessBinder({
   (system: CanHavePeripheryTLSerial, th: HasHarnessSignalReferences, ports: Seq[ClockedIO[SerialIO]]) => {
     implicit val p = chipyard.iobinders.GetSystemParameters(system)
     ports.map({ port =>
       val bits = SerialAdapter.asyncQueue(port, th.buildtopClock, th.buildtopReset)
       withClockAndReset(th.buildtopClock, th.buildtopReset) {
         val ram = SerialAdapter.connectHarnessRAM(system.serdesser.get, bits, th.buildtopReset)
-        val success = SerialAdapter.connectSimSerial(ram.module.io.tsi_ser, th.buildtopClock, th.buildtopReset.asBool)
+        val success = SerialAdapter.connectSimSerial(ram.module.io.tsi_ser, th.buildtopClock, th.buildtopReset.asBool, core_id)
         when (success) { th.success := true.B }
       }
     })

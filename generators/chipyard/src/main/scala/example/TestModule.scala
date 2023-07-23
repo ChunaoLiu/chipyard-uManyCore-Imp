@@ -27,7 +27,8 @@ class TestModuleIO (val w: Int) extends Bundle {
     val input_valid = Input(Bool())
     val output_ready = Input(Bool())
     val output_valid = Output(Bool())
-    val testModuleInput = Output(UInt(w.W))
+    val testModuleInput = Input(UInt(w.W))
+    val testModuleOutput = Output(UInt(w.W))
     val busy = Output(Bool())
 }
 
@@ -51,6 +52,7 @@ trait TestModule extends HasRegMap{
     // TODO: remove inputStatus, replace ready signal with testModuleInput
     // val inputStatus = Wire(new DecoupledIO(UInt(params.width.W)))
     val testModuleInput = Wire(new DecoupledIO(UInt(params.width.W)))
+    val testModuleOutput = Wire(new DecoupledIO(UInt(params.width.W)))
     val status = Wire(UInt(2.W))
 
     val impl = Module(new TestModuleImp(params.width))
@@ -58,22 +60,37 @@ trait TestModule extends HasRegMap{
     impl.io.clock := clock
     impl.io.reset := reset.asBool
 
-    impl.io.input_valid := testModuleInput.valid
     testModuleInput.ready := impl.io.input_ready
 
-    testModuleInput.bits := impl.io.testModuleInput
-    testModuleInput.valid := impl.io.output_valid
+    impl.io.input_valid := testModuleInput.valid
 
-    impl.io.output_ready := testModuleInput.ready
+    // This line doesn't matter in our sample workload
+    impl.io.output_ready := testModuleOutput.ready
+
+    impl.io.testModuleInput := testModuleInput.bits
+
+    testModuleOutput.bits := impl.io.testModuleOutput
+
+    testModuleOutput.valid := impl.io.output_valid
 
     status := Cat(impl.io.input_ready, impl.io.output_valid)
     io.TestModule_busy := impl.io.busy
+
+    when (testModuleInput.valid) {
+        printf("Test Module Input is valid and value is %d\n", testModuleInput.bits)
+    }
+    when (testModuleOutput.valid) {
+        printf("Test Module Output is ready and value is %d\n", testModuleOutput.bits)
+    }
 
     regmap(
         0x00 -> Seq(
             RegField.r(2, status)),
         0x04 -> Seq(
-            RegField.r(params.width, testModuleInput)
+            RegField.w(params.width, testModuleInput)
+        ),
+        0x08 -> Seq(
+            RegField.r(params.width, testModuleOutput)
         )
     )
 
@@ -82,10 +99,10 @@ trait TestModule extends HasRegMap{
 class TestModuleImp(val w: Int) extends Module with HasTestModuleIO {
     val s_idle :: s_run :: s_done :: Nil = Enum(3)
 
+    val ValInit   = Reg(UInt(w.W))
     val state = RegInit(s_idle)
-    val tmp = Reg(UInt(w.W))
-    var isDone: Bool = false.B
-    val testInput = Reg(UInt(w.W))
+    var tmp = Reg(UInt(w.W))
+    val isDone = Reg(UInt(w.W))
 
     // ======================
     // Basic IO Control Block
@@ -95,25 +112,33 @@ class TestModuleImp(val w: Int) extends Module with HasTestModuleIO {
     io.input_ready := state === s_idle
     // Module output is ready only when its state is done
     io.output_valid := state === s_done
-    // Use the input signal as output
-    io.testModuleInput := testInput
+
+    io.testModuleOutput := tmp
 
     when (state === s_idle && io.input_valid) {
         state := s_run
-    } .elsewhen (state === s_run && isDone) {
+        isDone := 0.U
+    } .elsewhen (state === s_run && isDone === 1.U) {
+        printf("We switch to done\n")
         state := s_done
     } .elsewhen (state === s_done && io.output_ready) {
+        printf("We switch to Idle\n")
         state := s_idle
-        isDone = false.B
+        isDone := 0.U
     }
 
     // Actual logic
     when (state === s_idle && io.input_valid) {
         printf("We have received the workload and we can run it!\n");
+        ValInit := io.testModuleInput
+        isDone := 0.U
     } .elsewhen (state === s_run) {
+        printf("\nPre: isDone is %d\n", isDone);
         printf("Running workload... Hello World!\n");
-        testInput := testInput + 1.U
-        isDone = true.B
+        printf("Number we got is %d\n", ValInit);
+        tmp := (ValInit + 1.U)
+        isDone := 1.U
+        printf("Pro: isDone is %d\n", isDone);
     }
 
     io.busy := state =/= s_idle

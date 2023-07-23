@@ -86,17 +86,24 @@ class TestHarness(implicit val p: Parameters) extends Module with HasHarnessSign
   val buildtopClock = Wire(Clock())
   val buildtopReset = Wire(Reset())
 
-  val lazyDut = LazyModule(p(BuildTop)(p)).suggestName("chiptop")
-  val dut = Module(lazyDut.module)
+  val lazyDut1 = LazyModule(p(BuildTop)(p)).suggestName("chiptop1")
+  val dut1 = Module(lazyDut1.module)
+
+  // val lazyDut2 = LazyModule(p(BuildTop)(p)).suggestName("chiptop2")
+  // val dut2 = Module(lazyDut2.module)
 
   io.success := false.B
 
   val dutReset = buildtopReset.asAsyncReset
   val success = io.success
 
-  lazyDut match { case d: HasIOBinders =>
+  lazyDut1 match { case d: HasIOBinders =>
     ApplyHarnessBinders(this, d.lazySystem, d.portMap)
   }
+
+  // lazyDut2 match { case d: HasIOBinders =>
+  //   ApplyHarnessBinders(this, d.lazySystem, d.portMap)
+  // }
 
   val refClkBundle = p(HarnessClockInstantiatorKey).requestClockBundle("buildtop_reference_clock", getRefClockFreq * (1000 * 1000))
 

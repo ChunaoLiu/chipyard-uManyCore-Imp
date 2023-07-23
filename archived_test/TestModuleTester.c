@@ -3,6 +3,7 @@
 
 #define STATUS 0x1000
 #define TEST_MODULE_INPUT 0x1004
+#define TEST_MODULE_OUTPUT 0x1008
 
 int main(void)
 {
@@ -14,14 +15,15 @@ int main(void)
   while ((reg_read8(STATUS) & 0x2) == 0) ;
 
   printf("Finished waiting for TestModule...\n");
-
+  
   reg_write32(TEST_MODULE_INPUT, TestModuleInput);
 
+  printf("Written value 20 into TestModuleInput address 0x1004....\n");
 
   // wait for peripheral to complete
   while ((reg_read8(STATUS) & 0x1) == 0) ;
 
-  result = reg_read32(TEST_MODULE_INPUT);
+  result = reg_read32(TEST_MODULE_OUTPUT);
 
   printf("Hardware result %d\n", result);
   return 0;

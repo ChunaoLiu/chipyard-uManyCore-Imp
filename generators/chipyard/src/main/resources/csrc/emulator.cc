@@ -345,6 +345,11 @@ done_processing:
 #endif
     trace_count++;
   }
+
+  for(int i = 0; i < NUM_CORES; i++) {
+    tsi[i] = new tsi_t(htif_argc, htif_argv);
+  }
+
   // for verilator multithreading. need to do 1 loop before checking if
   // tsi exists, since tsi is created by verilated thread on the first
   // serial_tick.
