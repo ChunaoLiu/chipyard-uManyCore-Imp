@@ -16,18 +16,18 @@
         ],
         "classpath": [
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.13/scala-library-2.12.13.jar",
-            "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3_2.12/3.5.2/chisel3_2.12-3.5.2.jar",
+            "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3_2.12/3.5.5/chisel3_2.12-3.5.5.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/commons/commons-text/1.9/commons-text-1.9.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel-iotesters_2.12/2.5.1/chisel-iotesters_2.12-2.5.1.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/typesafe/play/play-json_2.12/2.9.2/play-json_2.12-2.9.2.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2.jar",
-            "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-macros_2.12/3.5.2/chisel3-macros_2.12-3.5.2.jar",
-            "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-core_2.12/3.5.2/chisel3-core_2.12-3.5.2.jar",
+            "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-macros_2.12/3.5.5/chisel3-macros_2.12-3.5.5.jar",
+            "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-core_2.12/3.5.5/chisel3-core_2.12-3.5.5.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.12.13/scala-reflect-2.12.13.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lihaoyi/os-lib_2.12/0.8.0/os-lib_2.12-0.8.0.jar",
-            "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/firrtl_2.12/1.5.2/firrtl_2.12-1.5.2.jar",
+            "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/firrtl_2.12/1.5.5/firrtl_2.12-1.5.5.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/firrtl-interpreter_2.12/1.5.1/firrtl-interpreter_2.12-1.5.1.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/treadle_2.12/1.5.1/treadle_2.12-1.5.1.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/junit/junit/4.13/junit-4.13.jar",
@@ -43,7 +43,7 @@
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.10.5.1/jackson-databind-2.10.5.1.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lihaoyi/geny_2.12/0.7.0/geny_2.12-0.7.0.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/antlr/antlr4-runtime/4.9.3/antlr4-runtime-4.9.3.jar",
-            "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.18.0/protobuf-java-3.18.0.jar",
+            "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.18.2/protobuf-java-3.18.2.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/net/jcazevedo/moultingyaml_2.12/0.4.2/moultingyaml_2.12-0.4.2.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/json4s/json4s-native_2.12/3.6.12/json4s-native_2.12-3.6.12.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/io/github/alexarchambault/data-class_2.12/0.2.5/data-class_2.12-0.2.5.jar",
@@ -76,8 +76,7 @@
                 "-deprecation",
                 "-feature",
                 "-language:reflectiveCalls",
-                "-Xplugin:/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-plugin_2.12.13/3.5.2/chisel3-plugin_2.12.13-3.5.2.jar",
-                "-Xplugin:/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalamacros/paradise_2.12.13/2.1.1/paradise_2.12.13-2.1.1.jar"
+                "-Xplugin:/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-plugin_2.12.13/3.5.5/chisel3-plugin_2.12.13-3.5.5.jar"
             ],
             "jars": [
                 "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.13/scala-library-2.12.13.jar",
@@ -134,6 +133,11 @@
                     "names": [
                         "munit.Framework"
                     ]
+                },
+                {
+                    "names": [
+                        "zio.test.sbt.ZTestFramework"
+                    ]
                 }
             ],
             "options": {
@@ -179,17 +183,17 @@
                 {
                     "organization": "edu.berkeley.cs",
                     "name": "chisel3_2.12",
-                    "version": "3.5.2",
+                    "version": "3.5.5",
                     "configurations": "default",
                     "artifacts": [
                         {
                             "name": "chisel3_2.12",
-                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3_2.12/3.5.2/chisel3_2.12-3.5.2.jar"
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3_2.12/3.5.5/chisel3_2.12-3.5.5.jar"
                         },
                         {
                             "name": "chisel3_2.12",
                             "classifier": "sources",
-                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3_2.12/3.5.2/chisel3_2.12-3.5.2-sources.jar"
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3_2.12/3.5.5/chisel3_2.12-3.5.5-sources.jar"
                         }
                     ]
                 },
@@ -298,34 +302,34 @@
                 {
                     "organization": "edu.berkeley.cs",
                     "name": "chisel3-macros_2.12",
-                    "version": "3.5.2",
+                    "version": "3.5.5",
                     "configurations": "default",
                     "artifacts": [
                         {
                             "name": "chisel3-macros_2.12",
-                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-macros_2.12/3.5.2/chisel3-macros_2.12-3.5.2.jar"
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-macros_2.12/3.5.5/chisel3-macros_2.12-3.5.5.jar"
                         },
                         {
                             "name": "chisel3-macros_2.12",
                             "classifier": "sources",
-                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-macros_2.12/3.5.2/chisel3-macros_2.12-3.5.2-sources.jar"
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-macros_2.12/3.5.5/chisel3-macros_2.12-3.5.5-sources.jar"
                         }
                     ]
                 },
                 {
                     "organization": "edu.berkeley.cs",
                     "name": "chisel3-core_2.12",
-                    "version": "3.5.2",
+                    "version": "3.5.5",
                     "configurations": "default",
                     "artifacts": [
                         {
                             "name": "chisel3-core_2.12",
-                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-core_2.12/3.5.2/chisel3-core_2.12-3.5.2.jar"
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-core_2.12/3.5.5/chisel3-core_2.12-3.5.5.jar"
                         },
                         {
                             "name": "chisel3-core_2.12",
                             "classifier": "sources",
-                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-core_2.12/3.5.2/chisel3-core_2.12-3.5.2-sources.jar"
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/chisel3-core_2.12/3.5.5/chisel3-core_2.12-3.5.5-sources.jar"
                         }
                     ]
                 },
@@ -366,17 +370,17 @@
                 {
                     "organization": "edu.berkeley.cs",
                     "name": "firrtl_2.12",
-                    "version": "1.5.2",
+                    "version": "1.5.5",
                     "configurations": "default",
                     "artifacts": [
                         {
                             "name": "firrtl_2.12",
-                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/firrtl_2.12/1.5.2/firrtl_2.12-1.5.2.jar"
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/firrtl_2.12/1.5.5/firrtl_2.12-1.5.5.jar"
                         },
                         {
                             "name": "firrtl_2.12",
                             "classifier": "sources",
-                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/firrtl_2.12/1.5.2/firrtl_2.12-1.5.2-sources.jar"
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/edu/berkeley/cs/firrtl_2.12/1.5.5/firrtl_2.12-1.5.5-sources.jar"
                         }
                     ]
                 },
@@ -638,17 +642,17 @@
                 {
                     "organization": "com.google.protobuf",
                     "name": "protobuf-java",
-                    "version": "3.18.0",
+                    "version": "3.18.2",
                     "configurations": "default",
                     "artifacts": [
                         {
                             "name": "protobuf-java",
-                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.18.0/protobuf-java-3.18.0.jar"
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.18.2/protobuf-java-3.18.2.jar"
                         },
                         {
                             "name": "protobuf-java",
                             "classifier": "sources",
-                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.18.0/protobuf-java-3.18.0-sources.jar"
+                            "path": "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.18.2/protobuf-java-3.18.2-sources.jar"
                         }
                     ]
                 },

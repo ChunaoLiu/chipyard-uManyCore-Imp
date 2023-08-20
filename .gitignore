@@ -19,5 +19,15 @@ tags
 .conda-env/
 .#*
 first-clone-setup-fast-log
+<<<<<<< HEAD
 .metals/*
 .bloop/*
+=======
+.bloop/
+.metals/
+project/.bloop/
+project/metals.sbt
+project/project/
+.ivy2
+.sbt
+>>>>>>> main

@@ -112,6 +112,11 @@
                     "names": [
                         "munit.Framework"
                     ]
+                },
+                {
+                    "names": [
+                        "zio.test.sbt.ZTestFramework"
+                    ]
                 }
             ],
             "options": {
