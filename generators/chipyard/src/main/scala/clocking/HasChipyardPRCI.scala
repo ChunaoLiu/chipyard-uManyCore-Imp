@@ -4,7 +4,7 @@ import chisel3._
 
 import scala.collection.mutable.{ArrayBuffer}
 
-import freechips.rocketchip.config.{Parameters, Field, Config}
+import org.chipsalliance.cde.config.{Parameters, Field, Config}
 import freechips.rocketchip.diplomacy._
 import freechips.rocketchip.tilelink._
 import freechips.rocketchip.devices.tilelink._
@@ -14,14 +14,17 @@ import freechips.rocketchip.util._
 import freechips.rocketchip.tile._
 import freechips.rocketchip.prci._
 
-import testchipip.{TLTileResetCtrl}
-import chipyard.{DefaultClockFrequencyKey}
+import testchipip.{TLTileResetCtrl, ClockGroupFakeResetSynchronizer}
 
 case class ChipyardPRCIControlParams(
   slaveWhere: TLBusWrapperLocation = CBUS,
   baseAddress: BigInt = 0x100000,
-  enableTileClockGating: Boolean = true
-)
+  enableTileClockGating: Boolean = true,
+  enableTileResetSetting: Boolean = true,
+  enableResetSynchronizers: Boolean = true // this should only be disabled to work around verilator async-reset initialization problems
+) {
+  def generatePRCIXBar = enableTileClockGating || enableTileResetSetting
+}
 
 
 case object ChipyardPRCIControlKey extends Field[ChipyardPRCIControlParams](ChipyardPRCIControlParams())
@@ -35,6 +38,13 @@ trait HasChipyardPRCI { this: BaseSubsystem with InstantiatesTiles =>
   private val tlbus = locateTLBusWrapper(prciParams.slaveWhere)
   val prci_ctrl_domain = LazyModule(new ClockSinkDomain(name=Some("chipyard-prci-control")))
   prci_ctrl_domain.clockNode := tlbus.fixedClockNode
+
+  val prci_ctrl_bus = Option.when(prciParams.generatePRCIXBar) { prci_ctrl_domain { TLXbar() } }
+  prci_ctrl_bus.foreach(xbar => tlbus.coupleTo("prci_ctrl") { (xbar
+    := TLFIFOFixer(TLFIFOFixer.all)
+    := TLBuffer()
+    := _)
+  })
 
   // Aggregate all the clock groups into a single node
   val aggregator = LazyModule(new ClockGroupAggregator("allClocks")).node
@@ -69,20 +79,47 @@ trait HasChipyardPRCI { this: BaseSubsystem with InstantiatesTiles =>
   // 5. Add reset control registers to the tiles (if desired)
   // The final clock group here contains physically distinct clock domains, which some PRCI node in a
   // diplomatic IOBinder should drive
-  val frequencySpecifier = ClockGroupFrequencySpecifier(p(ClockFrequencyAssignersKey), p(DefaultClockFrequencyKey))
+  val frequencySpecifier = ClockGroupFrequencySpecifier(p(ClockFrequencyAssignersKey))
   val clockGroupCombiner = ClockGroupCombiner()
-  val resetSynchronizer  = ClockGroupResetSynchronizer()
-  val tileClockGater     = prci_ctrl_domain {
-    TileClockGater(prciParams.baseAddress + 0x00000, tlbus, prciParams.enableTileClockGating)
+  val resetSynchronizer  = prci_ctrl_domain {
+    if (prciParams.enableResetSynchronizers) ClockGroupResetSynchronizer() else ClockGroupFakeResetSynchronizer()
   }
-  val tileResetSetter    = prci_ctrl_domain {
-    TileResetSetter(prciParams.baseAddress + 0x10000, tlbus, tile_prci_domains.map(_.tile_reset_domain.clockNode.portParams(0).name.get), Nil)
+  val tileClockGater     = Option.when(prciParams.enableTileClockGating) { prci_ctrl_domain {
+    val clock_gater = LazyModule(new TileClockGater(prciParams.baseAddress + 0x00000, tlbus.beatBytes))
+    clock_gater.tlNode := TLFragmenter(tlbus.beatBytes, tlbus.blockBytes) := prci_ctrl_bus.get
+    clock_gater
+  } }
+  val tileResetSetter    = Option.when(prciParams.enableTileResetSetting) { prci_ctrl_domain {
+    val reset_setter = LazyModule(new TileResetSetter(prciParams.baseAddress + 0x10000, tlbus.beatBytes,
+      tile_prci_domains.map(_.tile_reset_domain.clockNode.portParams(0).name.get), Nil))
+    reset_setter.tlNode := TLFragmenter(tlbus.beatBytes, tlbus.blockBytes) := prci_ctrl_bus.get
+    reset_setter
+  } }
+
+  if (!prciParams.enableResetSynchronizers) {
+    println(Console.RED + s"""
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+WARNING:
+
+DISABLING THE RESET SYNCHRONIZERS RESULTS IN
+A BROKEN DESIGN THAT WILL NOT BEHAVE
+PROPERLY AS ASIC OR FPGA.
+
+THESE SHOULD ONLY BE DISABLED TO WORK AROUND
+LIMITATIONS IN ASYNC RESET INITIALIZATION IN
+RTL SIMULATORS, NAMELY VERILATOR.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+""" + Console.RESET)
   }
+
   (aggregator
     := frequencySpecifier
     := clockGroupCombiner
     := resetSynchronizer
-    := tileClockGater
-    := tileResetSetter
+    := tileClockGater.map(_.clockNode).getOrElse(ClockGroupEphemeralNode()(ValName("temp")))
+    := tileResetSetter.map(_.clockNode).getOrElse(ClockGroupEphemeralNode()(ValName("temp")))
     := allClockGroupsNode)
 }

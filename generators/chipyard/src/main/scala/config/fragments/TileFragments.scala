@@ -2,14 +2,17 @@ package chipyard.config
 
 import chisel3._
 
-import freechips.rocketchip.config.{Field, Parameters, Config}
+import org.chipsalliance.cde.config.{Field, Parameters, Config}
 import freechips.rocketchip.tile._
 import freechips.rocketchip.subsystem._
 import freechips.rocketchip.rocket.{RocketCoreParams, MulDivParams, DCacheParams, ICacheParams}
 
 import boom.common.{BoomTileAttachParams}
 import cva6.{CVA6TileAttachParams}
+import sodor.common.{SodorTileAttachParams}
+import ibex.{IbexTileAttachParams}
 import testchipip._
+import barf.{TilePrefetchingMasterPortParams}
 
 class WithL2TLBs(entries: Int) extends Config((site, here, up) => {
   case TilesLocated(InSubsystem) => up(TilesLocated(InSubsystem), site) map {
@@ -79,3 +82,17 @@ class WithRocketDCacheScratchpad extends Config((site, here, up) => {
   }
 })
 
+class WithTilePrefetchers extends Config((site, here, up) => {
+  case TilesLocated(InSubsystem) => up(TilesLocated(InSubsystem), site) map {
+    case tp: RocketTileAttachParams => tp.copy(crossingParams = tp.crossingParams.copy(
+      master = TilePrefetchingMasterPortParams(tp.tileParams.hartId, tp.crossingParams.master)))
+    case tp: BoomTileAttachParams => tp.copy(crossingParams = tp.crossingParams.copy(
+      master = TilePrefetchingMasterPortParams(tp.tileParams.hartId, tp.crossingParams.master)))
+    case tp: SodorTileAttachParams => tp.copy(crossingParams = tp.crossingParams.copy(
+      master = TilePrefetchingMasterPortParams(tp.tileParams.hartId, tp.crossingParams.master)))
+    case tp: IbexTileAttachParams => tp.copy(crossingParams = tp.crossingParams.copy(
+      master = TilePrefetchingMasterPortParams(tp.tileParams.hartId, tp.crossingParams.master)))
+    case tp: CVA6TileAttachParams => tp.copy(crossingParams = tp.crossingParams.copy(
+      master = TilePrefetchingMasterPortParams(tp.tileParams.hartId, tp.crossingParams.master)))
+  }
+})

@@ -21,15 +21,18 @@ rm -rf $RDIR/toolchains/esp-tools/riscv-tests/build.log
     popd
 )
 (
-    pushd $RDIR/tools/api-config-chipsalliance
+    pushd $RDIR/tools/cde
     git config --local status.showUntrackedFiles no
     popd
 )
 (
-    pushd $RDIR/generators/cva6/src/main/resources/vsrc
-    if [ -d cva6 ]
+    if [ -d $RDIR/generators/cva6/src/main/resources/cva6/vsrc ]
     then
-	git submodule deinit -f cva6
+        pushd $RDIR/generators/cva6/src/main/resources/cva6/vsrc
+        if [ -d cva6 ]
+        then
+	    git submodule deinit -f cva6
+        fi
+        popd
     fi
-    popd
 )

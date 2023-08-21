@@ -5,7 +5,7 @@ import chisel3.util._
 import chisel3.experimental.{IntParam, BaseModule}
 import freechips.rocketchip.amba.axi4._
 import freechips.rocketchip.subsystem.BaseSubsystem
-import freechips.rocketchip.config.{Parameters, Field, Config}
+import org.chipsalliance.cde.config.{Parameters, Field, Config}
 import freechips.rocketchip.diplomacy._
 import freechips.rocketchip.regmapper.{HasRegMap, RegField}
 import freechips.rocketchip.tilelink._
@@ -165,17 +165,17 @@ trait CanHavePeripheryGCD { this: BaseSubsystem =>
     case Some(params) => {
       if (params.useAXI4) {
         val gcd = LazyModule(new GCDAXI4(params, pbus.beatBytes)(p))
-        pbus.toSlave(Some(portName)) {
+        pbus.coupleTo(portName) {
           gcd.node :=
           AXI4Buffer () :=
           TLToAXI4 () :=
           // toVariableWidthSlave doesn't use holdFirstDeny, which TLToAXI4() needsx
-          TLFragmenter(pbus.beatBytes, pbus.blockBytes, holdFirstDeny = true)
+          TLFragmenter(pbus.beatBytes, pbus.blockBytes, holdFirstDeny = true) := _
         }
         Some(gcd)
       } else {
         val gcd = LazyModule(new GCDTL(params, pbus.beatBytes)(p))
-        pbus.toVariableWidthSlave(Some(portName)) { gcd.node }
+        pbus.coupleTo(portName) { gcd.node := TLFragmenter(pbus.beatBytes, pbus.blockBytes) := _ }
         Some(gcd)
       }
     }

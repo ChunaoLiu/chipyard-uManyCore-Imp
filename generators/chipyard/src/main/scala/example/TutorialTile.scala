@@ -3,7 +3,7 @@ package chipyard.example
 import chisel3._
 import chisel3.util._
 
-import freechips.rocketchip.config._
+import org.chipsalliance.cde.config._
 import freechips.rocketchip.subsystem._
 import freechips.rocketchip.devices.tilelink._
 import freechips.rocketchip.diplomacy._
@@ -67,6 +67,7 @@ case class MyCoreParams(
   val useCryptoNIST: Boolean = false
   val useCryptoSM: Boolean = false
   val traceHasWdata: Boolean = false
+  val useConditionalZero = false
 }
 
 // DOC include start: CanAttachTile
