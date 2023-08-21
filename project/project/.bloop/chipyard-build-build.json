@@ -17,7 +17,7 @@
         ],
         "classpath": [
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/sbt/1.8.2/sbt-1.8.2.jar",
-            "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-library.jar",
+            "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-library.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/epfl/scala/sbt-bloop_2.12_1.0/1.5.8/sbt-bloop-1.5.8.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/main_2.12/1.8.2/main_2.12-1.8.2.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/io_2.12/1.8.0/io_2.12-1.8.0.jar",
@@ -70,12 +70,12 @@
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2.jar",
-            "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-reflect.jar",
+            "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-reflect.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/checkerframework/checker-qual/3.4.1/checker-qual-3.4.1.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/errorprone/error_prone_annotations/2.4.0/error_prone_annotations-2.4.0.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-collection-compat_2.12/2.9.0/scala-collection-compat_2.12-2.9.0.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar",
-            "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-compiler.jar",
+            "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-compiler.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/jcraft/jsch/0.1.54/jsch-0.1.54.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/com/eed3si9n/gigahorse-apache-http_2.12/0.7.0/gigahorse-apache-http_2.12-0.7.0.jar",
             "/home/chunao/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/ivy/ivy/2.3.0-sbt-a8f9eb5bf09d0539ea3658a2c2d4e09755b5133e/ivy-2.3.0-sbt-a8f9eb5bf09d0539ea3658a2c2d4e09755b5133e.jar",
@@ -121,10 +121,11 @@
                 "-Xsource:3"
             ],
             "jars": [
-                "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-library.jar",
-                "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-xml_2.12-2.1.0.jar",
-                "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-compiler.jar",
-                "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-reflect.jar"
+                "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-library.jar",
+                "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/jline.jar",
+                "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-compiler.jar",
+                "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-reflect.jar",
+                "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-xml_2.12.jar"
             ],
             "setup": {
                 "order": "mixed",
@@ -271,6 +272,10 @@
                     "version": "2.12.17",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "scala-library",
+                            "path": "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-library.jar"
+                        },
                         {
                             "name": "scala-library",
                             "path": "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-library.jar"
@@ -1140,6 +1145,10 @@
                     "artifacts": [
                         {
                             "name": "scala-reflect",
+                            "path": "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-reflect.jar"
+                        },
+                        {
+                            "name": "scala-reflect",
                             "path": "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-reflect.jar"
                         },
                         {
@@ -1223,6 +1232,10 @@
                     "version": "2.12.17",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "scala-compiler",
+                            "path": "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-compiler.jar"
+                        },
                         {
                             "name": "scala-compiler",
                             "path": "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-compiler.jar"
@@ -1684,6 +1697,10 @@
                     "artifacts": [
                         {
                             "name": "scala-compiler",
+                            "path": "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-compiler.jar"
+                        },
+                        {
+                            "name": "scala-compiler",
                             "path": "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-compiler.jar"
                         },
                         {
@@ -1699,6 +1716,10 @@
                     "version": "2.12.17",
                     "configurations": "optional",
                     "artifacts": [
+                        {
+                            "name": "scala-library",
+                            "path": "/home/chunao/chipyard/.sbt/boot/scala-2.12.17/lib/scala-library.jar"
+                        },
                         {
                             "name": "scala-library",
                             "path": "/home/chunao/.sbt/boot/scala-2.12.17/lib/scala-library.jar"
